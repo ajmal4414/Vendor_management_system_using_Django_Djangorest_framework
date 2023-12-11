@@ -57,10 +57,6 @@ class VendorCreateView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         vendor = serializer.save()
-
-        # Add any custom logic after creating a vendor
-        # For example, log the creation event or perform additional actions
-
         headers = self.get_success_headers(serializer.data)
         return Response(VendorSerializer(vendor).data, status=status.HTTP_201_CREATED, headers=headers)
 
@@ -92,11 +88,5 @@ class VendorDeleteView(generics.DestroyAPIView):
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-
-        # Add any custom logic before deleting a vendor
-        # For example, log the delete event or perform additional actions
-
         response = super().destroy(request, *args, **kwargs)
-
-        # Add any additional response data or modifications if needed
         return response

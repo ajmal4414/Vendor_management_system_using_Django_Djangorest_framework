@@ -16,10 +16,6 @@ class PurchaseOrderCreateView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         purchase_order = serializer.save()
-
-        # Add any custom logic after creating a purchase order
-        # For example, update vendor performance metrics or send notifications
-
         headers = self.get_success_headers(serializer.data)
         return Response(PurchaseOrderSerializer(purchase_order).data, status=status.HTTP_201_CREATED, headers=headers)
 
@@ -29,13 +25,6 @@ class PurchaseOrderListView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     queryset = PurchaseOrder.objects.all()
     serializer_class = PurchaseOrderSerializer
-
-# class PurchaseOrderDetailView(generics.RetrieveUpdateDestroyAPIView):
-#     authentication_classes=[TokenAuthentication]
-#     permission_classes = [IsAuthenticated]
-#     queryset = PurchaseOrder.objects.all()
-#     serializer_class = PurchaseOrderSerializer
-
 
 class PurchaseOrderDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
@@ -49,10 +38,6 @@ class PurchaseOrderDetailView(generics.RetrieveUpdateDestroyAPIView):
         serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         purchase_order = serializer.save()
-
-        # Add any custom logic after updating a purchase order
-        # For example, recalculate vendor performance metrics or update related data
-
         return Response(PurchaseOrderSerializer(purchase_order).data)
 
 
@@ -68,10 +53,6 @@ class PurchaseOrderUpdateView(generics.UpdateAPIView):
         serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         purchase_order = serializer.save()
-
-        # Add any custom logic after updating a purchase order
-        # For example, recalculate vendor performance metrics or update related data
-
         return Response(PurchaseOrderSerializer(purchase_order).data)
 
 
@@ -84,11 +65,5 @@ class PurchaseOrderDeleteView(generics.DestroyAPIView):
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-
-        # Add any custom logic before deleting a purchase order
-        # For example, revert vendor performance metrics or handle related data
-
         response = super().destroy(request, *args, **kwargs)
-
-        # Add any additional response data or modifications if needed
         return response
